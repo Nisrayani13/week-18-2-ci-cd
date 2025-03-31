@@ -1,17 +1,25 @@
-name: Test Workflow
+name: Build on PR
 
-on: 
-  push: # Trigger on push to any branch
+on:
+  pull_request:
     branches:
-      - "*"  # Will trigger on pushes to any branch
+      - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Print Hello World
-        run: echo "Hello, world!"
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Install Dependencies
+        run: npm install
+      
+      - name: Generate prisma client
+        run: npm run db:generate
+        
+      - name: Run Build
+        run: npm run build
