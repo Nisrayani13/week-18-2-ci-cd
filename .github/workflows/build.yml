@@ -1,30 +1,17 @@
-name: Build succed on PR
-on:
-  pull_request:
+name: Test Workflow
+
+on: 
+  push: # Trigger on push to any branch
     branches:
-      - master
+      - "*"  # Will trigger on pushes to any branch
 
 jobs:
-  build: 
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Generate Prisma Client
-        run: |
-          cd packages
-          npx prisma generate
-      
-      - name: Build the application
-        run: npm run build
+      - name: Print Hello World
+        run: echo "Hello, world!"
